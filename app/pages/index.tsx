@@ -57,6 +57,12 @@ const Home: BlitzPage = () => {
       <Suspense fallback="Loading...">
         <UserInfo />
       </Suspense>
+
+      <div>
+        <Link href={Routes.PresentationsPage()}>
+          <a>Presentations</a>
+        </Link>
+      </div>
     </div>
   )
 }
