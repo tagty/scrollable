@@ -42,6 +42,8 @@ export const Presentation = () => {
 }
 
 const ShowPresentationPage: BlitzPage = () => {
+  const presentationId = useParam("presentationId", "number")
+
   return (
     <div>
       <p>
@@ -53,6 +55,14 @@ const ShowPresentationPage: BlitzPage = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <Presentation />
       </Suspense>
+
+      {presentationId && (
+        <p>
+          <Link href={Routes.SlidesPage({ presentationId: presentationId })}>
+            <a>Slides</a>
+          </Link>
+        </p>
+      )}
     </div>
   )
 }

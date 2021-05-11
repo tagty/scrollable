@@ -58,11 +58,11 @@ const Home: BlitzPage = () => {
         <UserInfo />
       </Suspense>
 
-      <div>
+      <p>
         <Link href={Routes.PresentationsPage()}>
           <a>Presentations</a>
         </Link>
-      </div>
+      </p>
     </div>
   )
 }

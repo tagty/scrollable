@@ -16,6 +16,17 @@ export default resolver.pipe(
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const presentation = await db.presentation.create({ data: input })
 
+    const texts = input.text.split("---\n")
+
+    texts.forEach(async (text) => {
+      await db.slide.create({
+        data: {
+          text: text.trim(),
+          presentationId: presentation.id,
+        },
+      })
+    })
+
     return presentation
   }
 )
