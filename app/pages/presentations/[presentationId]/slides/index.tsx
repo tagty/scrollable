@@ -1,11 +1,22 @@
 import { Suspense, useCallback, useEffect } from "react"
-import { Head, Link, usePaginatedQuery, useRouter, useParam, BlitzPage, Routes } from "blitz"
+import {
+  Head,
+  Link,
+  usePaginatedQuery,
+  useRouter,
+  useParam,
+  BlitzPage,
+  Routes,
+  useQuery,
+} from "blitz"
 import styled from "styled-components"
 import ReactMarkdown from "react-markdown"
 import SyntaxHighlighter from "react-syntax-highlighter"
 import { githubGist } from "react-syntax-highlighter/dist/esm/styles/hljs"
 import Layout from "app/core/layouts/Layout"
 import getSlides from "app/slides/queries/getSlides"
+import getPresentation from "app/presentations/queries/getPresentation"
+import Logo from "./Logo"
 
 const ITEMS_PER_PAGE = 1
 
@@ -64,56 +75,87 @@ export const SlidesList = () => {
   return (
     <div>
       {slides.map((slide) => (
-        <Div key={slide.id}>
+        <Slide key={slide.id}>
           <ReactMarkdown components={components} children={slide.text} />
-        </Div>
+        </Slide>
       ))}
 
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
+      <Buttons>
+        <button disabled={page === 0} onClick={goToPreviousPage}>
+          Previous
+        </button>
+        <button disabled={!hasMore} onClick={goToNextPage}>
+          Next
+        </button>
+      </Buttons>
     </div>
   )
 }
 
-const Div = styled.div`
+const Slide = styled.div`
   img {
     max-width: 800px;
   }
 `
 
+const Buttons = styled.div`
+  margin-top: 25px;
+
+  button {
+    padding: 10px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+
+    :not(:last-child) {
+      margin-right: 8px;
+    }
+  }
+`
+
 const SlidesPage: BlitzPage = () => {
   const presentationId = useParam("presentationId", "number")
+  const [presentation] = useQuery(getPresentation, { id: presentationId })
+  const router = useRouter()
+  const page = Number(router.query.page) || 0
 
   return (
-    <>
+    <Container>
       <Head>
         <title>Slides</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto Sans JP"></link>
       </Head>
 
       <div>
-        <p>
-          <Link href={Routes.PresentationsPage()}>
-            <a>Presentations</a>
-          </Link>
-        </p>
-
-        {presentationId && (
+        <Breadcrumb>
           <p>
-            <Link href={Routes.ShowPresentationPage({ presentationId: presentationId })}>
-              <a>Presentation {presentationId}</a>
+            <Link href={Routes.Home()}>
+              <a>
+                <Logo />
+              </a>
             </Link>
           </p>
-        )}
+          <p>
+            <Link href={Routes.PresentationsPage()}>
+              <a>Presentations</a>
+            </Link>
+          </p>
+          {presentationId && (
+            <p>
+              <Link href={Routes.ShowPresentationPage({ presentationId: presentationId })}>
+                <a>{presentation.title}</a>
+              </Link>
+            </p>
+          )}
+          <p>Slides {page + 1}</p>
+        </Breadcrumb>
 
         <Suspense fallback={<div>Loading...</div>}>
           <SlidesList />
         </Suspense>
       </div>
-    </>
+    </Container>
   )
 }
 
@@ -121,3 +163,35 @@ SlidesPage.authenticate = true
 SlidesPage.getLayout = (page) => <Layout>{page}</Layout>
 
 export default SlidesPage
+
+const Container = styled.div`
+  padding: 10px 20px;
+  font-family: "Noto Sans JP";
+`
+
+const Breadcrumb = styled.div`
+  display: flex;
+
+  p {
+    display: flex;
+    align-items: center;
+    margin: 0px;
+
+    :not(:last-child)::after {
+      content: ">";
+      margin: 0px 15px;
+      color: #cdc9c9;
+      vertical-align: 50%;
+    }
+
+    a {
+      display: flex;
+      color: #4286ff;
+      text-decoration: none;
+    }
+
+    svg {
+      width: 85px;
+    }
+  }
+`
