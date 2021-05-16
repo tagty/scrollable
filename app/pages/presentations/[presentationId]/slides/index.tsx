@@ -43,7 +43,7 @@ export const SlidesList = () => {
   const presentationId = useParam("presentationId", "number")
   const [{ slides, hasMore }] = usePaginatedQuery(getSlides, {
     where: { presentation: { id: presentationId } },
-    orderBy: { id: "asc" },
+    orderBy: { number: "asc" },
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
   })
@@ -99,7 +99,7 @@ const Slide = styled.div`
 `
 
 const Buttons = styled.div`
-  margin-top: 25px;
+  margin-top: 30px;
 
   button {
     padding: 10px;
@@ -114,62 +114,47 @@ const Buttons = styled.div`
   }
 `
 
-const SlidesPage: BlitzPage = () => {
+const Breadcrumb = () => {
   const presentationId = useParam("presentationId", "number")
   const [presentation] = useQuery(getPresentation, { id: presentationId })
   const router = useRouter()
   const page = Number(router.query.page) || 0
 
+  const [slides] = useQuery(getSlides, {
+    where: {
+      presentationId: presentationId,
+    },
+  })
+
   return (
-    <Container>
-      <Head>
-        <title>Slides</title>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto Sans JP"></link>
-      </Head>
-
-      <div>
-        <Breadcrumb>
-          <p>
-            <Link href={Routes.Home()}>
-              <a>
-                <Logo />
-              </a>
-            </Link>
-          </p>
-          <p>
-            <Link href={Routes.PresentationsPage()}>
-              <a>Presentations</a>
-            </Link>
-          </p>
-          {presentationId && (
-            <p>
-              <Link href={Routes.ShowPresentationPage({ presentationId: presentationId })}>
-                <a>{presentation.title}</a>
-              </Link>
-            </p>
-          )}
-          <p>Slides {page + 1}</p>
-        </Breadcrumb>
-
-        <Suspense fallback={<div>Loading...</div>}>
-          <SlidesList />
-        </Suspense>
-      </div>
-    </Container>
+    <BreadcrumbContainer>
+      <p>
+        <Link href={Routes.Home()}>
+          <a>
+            <Logo />
+          </a>
+        </Link>
+      </p>
+      <p>
+        <Link href={Routes.PresentationsPage()}>
+          <a>Presentations</a>
+        </Link>
+      </p>
+      {presentationId && (
+        <p>
+          <Link href={Routes.ShowPresentationPage({ presentationId: presentationId })}>
+            <a>{presentation.title}</a>
+          </Link>
+        </p>
+      )}
+      <p>
+        Slides ({page + 1}/{slides.count})
+      </p>
+    </BreadcrumbContainer>
   )
 }
 
-SlidesPage.authenticate = true
-SlidesPage.getLayout = (page) => <Layout>{page}</Layout>
-
-export default SlidesPage
-
-const Container = styled.div`
-  padding: 10px 20px;
-  font-family: "Noto Sans JP";
-`
-
-const Breadcrumb = styled.div`
+const BreadcrumbContainer = styled.div`
   display: flex;
 
   p {
@@ -194,4 +179,35 @@ const Breadcrumb = styled.div`
       width: 85px;
     }
   }
+`
+
+const SlidesPage: BlitzPage = () => {
+  return (
+    <Container>
+      <Head>
+        <title>Slides</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto Sans JP"></link>
+      </Head>
+
+      <div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Breadcrumb />
+        </Suspense>
+
+        <Suspense fallback={<div>Loading...</div>}>
+          <SlidesList />
+        </Suspense>
+      </div>
+    </Container>
+  )
+}
+
+SlidesPage.authenticate = true
+SlidesPage.getLayout = (page) => <Layout>{page}</Layout>
+
+export default SlidesPage
+
+const Container = styled.div`
+  padding: 10px 20px;
+  font-family: "Noto Sans JP";
 `

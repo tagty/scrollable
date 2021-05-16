@@ -25,11 +25,12 @@ export default resolver.pipe(
 
     const texts = data.text.split("---\n")
 
-    texts.forEach(async (text) => {
+    texts.forEach(async (text, index) => {
       await db.slide.create({
         data: {
           text: text.trim(),
           presentationId: id,
+          number: index,
         },
       })
     })

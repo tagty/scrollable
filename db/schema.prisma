@@ -80,4 +80,5 @@ model Slide {
   text           String
   presentation   Presentation @relation(fields: [presentationId], references: [id])
   presentationId Int
+  number         Int
 }
