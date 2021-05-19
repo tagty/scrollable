@@ -24,18 +24,30 @@ const components = {
   code({ node, inline, className, children, ...props }) {
     const match = /language-(\w+)/.exec(className || "")
     return !inline && match ? (
-      <SyntaxHighlighter
-        style={githubGist}
-        language={match[1]}
-        PreTag="div"
-        children={String(children).replace(/\n$/, "")}
-        {...props}
-      />
+      <CodeBlock style={githubGist} language={match[1]} PreTag="div" {...props}>
+        {String(children).replace(/\n$/, "")}
+      </CodeBlock>
     ) : (
-      <code className={className} {...props} />
+      <Code className={className} {...props}>
+        {children}
+      </Code>
     )
   },
 }
+
+const CodeBlock = styled(SyntaxHighlighter)`
+  margin: 25px 0px;
+  font-size: 16px;
+
+  font-size: 16px;
+`
+
+const Code = styled.code`
+  background-color: #f5f4f4;
+  padding: 6px;
+  border-radius: 4px;
+  font-size: 14px;
+`
 
 export const SlidesList = () => {
   const router = useRouter()
@@ -94,12 +106,26 @@ export const SlidesList = () => {
 
 const Slide = styled.div`
   img {
+    margin: 20px 0px;
     max-width: 800px;
+  }
+
+  ul {
+    padding-inline-start: 30px;
+    list-style: disc;
+  }
+
+  li {
+    padding: 10px 0px;
+  }
+
+  p {
+    margin: 10px;
   }
 `
 
 const Buttons = styled.div`
-  margin-top: 30px;
+  margin-top: 35px;
 
   button {
     padding: 10px;
@@ -148,7 +174,7 @@ const Breadcrumb = () => {
         </p>
       )}
       <p>
-        Slides ({page + 1}/{slides.count})
+        {page + 1}/{slides.count}
       </p>
     </BreadcrumbContainer>
   )
@@ -181,13 +207,34 @@ const BreadcrumbContainer = styled.div`
   }
 `
 
+const Header = () => {
+  const presentationId = useParam("presentationId", "number")
+  const [presentation] = useQuery(getPresentation, { id: presentationId })
+  const router = useRouter()
+  const page = Number(router.query.page) || 0
+
+  const [slides] = useQuery(getSlides, {
+    where: {
+      presentationId: presentationId,
+    },
+  })
+
+  return (
+    <Head>
+      <title>
+        {presentation.title} ({page + 1}/{slides.count}) | scrollable
+      </title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto Sans JP"></link>
+    </Head>
+  )
+}
+
 const SlidesPage: BlitzPage = () => {
   return (
-    <Container>
-      <Head>
-        <title>Slides</title>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto Sans JP"></link>
-      </Head>
+    <>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Header />
+      </Suspense>
 
       <div>
         <Suspense fallback={<div>Loading...</div>}>
@@ -198,7 +245,7 @@ const SlidesPage: BlitzPage = () => {
           <SlidesList />
         </Suspense>
       </div>
-    </Container>
+    </>
   )
 }
 
@@ -206,8 +253,3 @@ SlidesPage.authenticate = true
 SlidesPage.getLayout = (page) => <Layout>{page}</Layout>
 
 export default SlidesPage
-
-const Container = styled.div`
-  padding: 10px 20px;
-  font-family: "Noto Sans JP";
-`
