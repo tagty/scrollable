@@ -41,14 +41,17 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
             flex-direction: column;
             align-items: start;
             font-size: 1rem;
+            font-weight: bold;
           }
+
           input {
             font-size: 1rem;
-            padding: 0.25rem 0.5rem;
+            padding: 0.75rem;
             border-radius: 3px;
             border: 1px solid purple;
             appearance: none;
             margin-top: 0.5rem;
+            width: 800px;
           }
         `}</style>
       </div>

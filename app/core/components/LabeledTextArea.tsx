@@ -29,7 +29,6 @@ export const LabeledTextArea = forwardRef<HTMLTextAreaElement, LabeledTextAreaPr
             placeholder={placeholder}
             ref={ref}
             rows={10}
-            cols={80}
           />
         </label>
 
@@ -45,14 +44,17 @@ export const LabeledTextArea = forwardRef<HTMLTextAreaElement, LabeledTextAreaPr
             flex-direction: column;
             align-items: start;
             font-size: 1rem;
+            font-weight: bold;
           }
+
           textarea {
             font-size: 1rem;
-            padding: 0.25rem 0.5rem;
+            padding: 0.75rem;
             border-radius: 3px;
             border: 1px solid purple;
             appearance: none;
             margin-top: 0.5rem;
+            width: 800px;
           }
         `}</style>
       </div>

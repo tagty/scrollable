@@ -2,6 +2,8 @@ import { Link, useRouter, useMutation, BlitzPage, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createPresentation from "app/presentations/mutations/createPresentation"
 import { PresentationForm, FORM_ERROR } from "app/presentations/components/PresentationForm"
+import { Breadcrumb } from "app/core/components/Ui"
+import { Scrollable } from "app/core/components/Icons"
 
 const NewPresentationPage: BlitzPage = () => {
   const router = useRouter()
@@ -9,7 +11,21 @@ const NewPresentationPage: BlitzPage = () => {
 
   return (
     <div>
-      <h1>Create New Presentation</h1>
+      <Breadcrumb>
+        <p>
+          <Link href={Routes.Home()}>
+            <a>
+              <Scrollable />
+            </a>
+          </Link>
+        </p>
+        <p>
+          <Link href={Routes.PresentationsPage()}>
+            <a>Presentations</a>
+          </Link>
+        </p>
+        <p>Create</p>
+      </Breadcrumb>
 
       <PresentationForm
         submitText="Create Presentation"
@@ -30,17 +46,13 @@ const NewPresentationPage: BlitzPage = () => {
           }
         }}
       />
-
-      <p>
-        <Link href={Routes.PresentationsPage()}>
-          <a>Presentations</a>
-        </Link>
-      </p>
     </div>
   )
 }
 
 NewPresentationPage.authenticate = true
-NewPresentationPage.getLayout = (page) => <Layout title={"Create New Presentation"}>{page}</Layout>
+NewPresentationPage.getLayout = (page) => (
+  <Layout title={"Create New Presentation | scrollable"}>{page}</Layout>
+)
 
 export default NewPresentationPage

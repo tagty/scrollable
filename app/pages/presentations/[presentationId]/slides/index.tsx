@@ -16,7 +16,8 @@ import { githubGist } from "react-syntax-highlighter/dist/esm/styles/hljs"
 import Layout from "app/core/layouts/Layout"
 import getSlides from "app/slides/queries/getSlides"
 import getPresentation from "app/presentations/queries/getPresentation"
-import Logo from "./Logo"
+import { Breadcrumb } from "app/core/components/Ui"
+import { Scrollable } from "app/core/components/Icons"
 
 const ITEMS_PER_PAGE = 1
 
@@ -127,20 +128,12 @@ const Slide = styled.div`
 const Buttons = styled.div`
   margin-top: 35px;
 
-  button {
-    padding: 10px;
-    background-color: #ffffff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-
-    :not(:last-child) {
-      margin-right: 8px;
-    }
+  button:not(:last-child) {
+    margin-right: 8px;
   }
 `
 
-const Breadcrumb = () => {
+const Breadcrumbs = () => {
   const presentationId = useParam("presentationId", "number")
   const [presentation] = useQuery(getPresentation, { id: presentationId })
   const router = useRouter()
@@ -153,11 +146,11 @@ const Breadcrumb = () => {
   })
 
   return (
-    <BreadcrumbContainer>
+    <Breadcrumb>
       <p>
         <Link href={Routes.Home()}>
           <a>
-            <Logo />
+            <Scrollable />
           </a>
         </Link>
       </p>
@@ -176,40 +169,12 @@ const Breadcrumb = () => {
       <p>
         {page + 1}/{slides.count}
       </p>
-    </BreadcrumbContainer>
+    </Breadcrumb>
   )
 }
 
-const BreadcrumbContainer = styled.div`
-  display: flex;
-
-  p {
-    display: flex;
-    align-items: center;
-    margin: 0px;
-
-    :not(:last-child)::after {
-      content: ">";
-      margin: 0px 15px;
-      color: #cdc9c9;
-      vertical-align: 50%;
-    }
-
-    a {
-      display: flex;
-      color: #4286ff;
-      text-decoration: none;
-    }
-
-    svg {
-      width: 85px;
-    }
-  }
-`
-
 const Header = () => {
   const presentationId = useParam("presentationId", "number")
-  const [presentation] = useQuery(getPresentation, { id: presentationId })
   const router = useRouter()
   const page = Number(router.query.page) || 0
 
@@ -222,9 +187,8 @@ const Header = () => {
   return (
     <Head>
       <title>
-        {presentation.title} ({page + 1}/{slides.count}) | scrollable
+        {page + 1}/{slides.count} | scrollable
       </title>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto Sans JP"></link>
     </Head>
   )
 }
@@ -238,7 +202,7 @@ const SlidesPage: BlitzPage = () => {
 
       <div>
         <Suspense fallback={<div>Loading...</div>}>
-          <Breadcrumb />
+          <Breadcrumbs />
         </Suspense>
 
         <Suspense fallback={<div>Loading...</div>}>

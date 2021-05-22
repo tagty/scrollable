@@ -3,6 +3,8 @@ import { Link, BlitzPage, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
+import { Scrollable } from "app/core/components/Icons"
+import { Breadcrumb } from "app/core/components/Ui"
 
 /*
  * This file is just for a pleasant getting started page for your new app.
@@ -24,11 +26,6 @@ const UserInfo = () => {
         >
           Logout
         </button>
-        <div>
-          User id: <code>{currentUser.id}</code>
-          <br />
-          User role: <code>{currentUser.role}</code>
-        </div>
       </>
     )
   } else {
@@ -52,20 +49,26 @@ const UserInfo = () => {
 const Home: BlitzPage = () => {
   return (
     <div>
-      <Suspense fallback="Loading...">
-        <UserInfo />
-      </Suspense>
+      <Breadcrumb>
+        <p>
+          <Scrollable />
+        </p>
+      </Breadcrumb>
 
       <p>
         <Link href={Routes.PresentationsPage()}>
           <a>Presentations</a>
         </Link>
       </p>
+
+      <Suspense fallback="Loading...">
+        <UserInfo />
+      </Suspense>
     </div>
   )
 }
 
 Home.suppressFirstRenderFlicker = true
-Home.getLayout = (page) => <Layout title="Home">{page}</Layout>
+Home.getLayout = (page) => <Layout title="Home | scrollable">{page}</Layout>
 
 export default Home

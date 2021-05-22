@@ -2,6 +2,9 @@ import { Suspense } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, BlitzPage, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getPresentations from "app/presentations/queries/getPresentations"
+import { Breadcrumb } from "app/core/components/Ui"
+import { Scrollable } from "app/core/components/Icons"
+import styled from "styled-components"
 
 const ITEMS_PER_PAGE = 100
 
@@ -19,34 +22,87 @@ export const PresentationsList = () => {
 
   return (
     <div>
-      <ul>
+      <Table>
         {presentations.map((presentation) => (
-          <li key={presentation.id}>
+          <div key={presentation.id} className="row">
             <Link href={Routes.ShowPresentationPage({ presentationId: presentation.id })}>
               <a>{presentation.title}</a>
             </Link>
-          </li>
-        ))}
-      </ul>
 
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
+            <Link href={Routes.EditPresentationPage({ presentationId: presentation.id })}>
+              <a>Edit</a>
+            </Link>
+
+            <button
+              type="button"
+              onClick={async () => {
+                if (window.confirm("This will be deleted")) {
+                  await deletePresentationMutation({ id: presentation.id })
+                  router.push(Routes.PresentationsPage())
+                }
+              }}
+              style={{ margin: "0.5rem" }}
+            >
+              Delete
+            </button>
+
+            <Link href={Routes.SlidesPage({ presentationId: presentation.id })}>
+              <a>Slides</a>
+            </Link>
+          </div>
+        ))}
+      </Table>
+
+      <Buttons>
+        <button disabled={page === 0} onClick={goToPreviousPage}>
+          Previous
+        </button>
+        <button disabled={!hasMore} onClick={goToNextPage}>
+          Next
+        </button>
+      </Buttons>
     </div>
   )
 }
+
+const Table = styled.div`
+  margin-bottom: 35px;
+
+  > div.row {
+    display: flex;
+    align-items: center;
+    padding: 10px 0px;
+
+    > *:not(:last-child) {
+      margin-right: 20px;
+    }
+  }
+`
+
+const Buttons = styled.div`
+  button:not(:last-child) {
+    margin-right: 8px;
+  }
+`
 
 const PresentationsPage: BlitzPage = () => {
   return (
     <>
       <Head>
-        <title>Presentations</title>
+        <title>Presentations | scrollable</title>
       </Head>
 
       <div>
+        <Breadcrumb>
+          <p>
+            <Link href={Routes.Home()}>
+              <a>
+                <Scrollable />
+              </a>
+            </Link>
+          </p>
+        </Breadcrumb>
+
         <p>
           <Link href={Routes.NewPresentationPage()}>
             <a>Create Presentation</a>
@@ -65,3 +121,6 @@ PresentationsPage.authenticate = true
 PresentationsPage.getLayout = (page) => <Layout>{page}</Layout>
 
 export default PresentationsPage
+function deletePresentationMutation(arg0: { id: number }) {
+  throw new Error("Function not implemented.")
+}

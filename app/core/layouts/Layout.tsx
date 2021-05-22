@@ -1,6 +1,5 @@
 import { ReactNode } from "react"
 import { Head } from "blitz"
-import styled from "styled-components"
 
 type LayoutProps = {
   title?: string
@@ -9,21 +8,43 @@ type LayoutProps = {
 
 const Layout = ({ title, children }: LayoutProps) => {
   return (
-    <Container>
+    <div className="layout">
       <Head>
         <title>{title || "scrollable"}</title>
         <link rel="icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto Sans JP"></link>
       </Head>
 
       {children}
-    </Container>
+
+      <style jsx>
+        {`
+          div.layout {
+            padding: 15px 30px;
+            font-family: "Noto Sans JP";
+            color: #111111;
+          }
+        `}
+      </style>
+
+      <style jsx global>
+        {`
+          button {
+            padding: 10px;
+            background-color: #ffffff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+          }
+
+          a {
+            color: #4286ff;
+            text-decoration: none;
+          }
+        `}
+      </style>
+    </div>
   )
 }
-
-const Container = styled.div`
-  padding: 15px 30px;
-  font-family: "Noto Sans JP";
-  color: #111111;
-`
 
 export default Layout

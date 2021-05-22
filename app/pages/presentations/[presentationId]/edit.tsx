@@ -4,6 +4,8 @@ import Layout from "app/core/layouts/Layout"
 import getPresentation from "app/presentations/queries/getPresentation"
 import updatePresentation from "app/presentations/mutations/updatePresentation"
 import { PresentationForm, FORM_ERROR } from "app/presentations/components/PresentationForm"
+import { Breadcrumb } from "app/core/components/Ui"
+import { Scrollable } from "app/core/components/Icons"
 
 export const EditPresentation = () => {
   const router = useRouter()
@@ -14,13 +16,10 @@ export const EditPresentation = () => {
   return (
     <>
       <Head>
-        <title>Edit Presentation {presentation.id}</title>
+        <title>Edit {presentation.title} | scrollable</title>
       </Head>
 
       <div>
-        <h1>Edit Presentation {presentation.id}</h1>
-        <pre>{JSON.stringify(presentation)}</pre>
-
         <PresentationForm
           submitText="Update Presentation"
           // TODO use a zod schema for form validation
@@ -50,17 +49,35 @@ export const EditPresentation = () => {
 }
 
 const EditPresentationPage: BlitzPage = () => {
+  const presentationId = useParam("presentationId", "number")
+  const [presentation] = useQuery(getPresentation, { id: presentationId })
+
   return (
     <div>
+      <Breadcrumb>
+        <p>
+          <Link href={Routes.Home()}>
+            <a>
+              <Scrollable />
+            </a>
+          </Link>
+        </p>
+        <p>
+          <Link href={Routes.PresentationsPage()}>
+            <a>Presentations</a>
+          </Link>
+        </p>
+        <p>
+          <Link href={Routes.ShowPresentationPage({ presentationId: presentation.id })}>
+            <a>{presentation.title}</a>
+          </Link>
+        </p>
+        <p>Edit</p>
+      </Breadcrumb>
+
       <Suspense fallback={<div>Loading...</div>}>
         <EditPresentation />
       </Suspense>
-
-      <p>
-        <Link href={Routes.PresentationsPage()}>
-          <a>Presentations</a>
-        </Link>
-      </p>
     </div>
   )
 }
