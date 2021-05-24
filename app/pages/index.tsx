@@ -5,6 +5,7 @@ import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
 import { Scrollable } from "app/core/components/Icons"
 import { Breadcrumb } from "app/core/components/Ui"
+import styled from "styled-components"
 
 /*
  * This file is just for a pleasant getting started page for your new app.
@@ -19,7 +20,6 @@ const UserInfo = () => {
     return (
       <>
         <button
-          className="button small"
           onClick={async () => {
             await logoutMutation()
           }}
@@ -30,21 +30,23 @@ const UserInfo = () => {
     )
   } else {
     return (
-      <>
+      <Action>
         <Link href={Routes.SignupPage()}>
-          <a className="button small">
-            <strong>Sign Up</strong>
-          </a>
+          <a>Sign Up</a>
         </Link>
         <Link href={Routes.LoginPage()}>
-          <a className="button small">
-            <strong>Login</strong>
-          </a>
+          <a>Login</a>
         </Link>
-      </>
+      </Action>
     )
   }
 }
+
+const Action = styled.div`
+  > *:not(:last-child) {
+    margin-right: 8px;
+  }
+`
 
 const Home: BlitzPage = () => {
   return (

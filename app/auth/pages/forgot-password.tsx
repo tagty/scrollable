@@ -4,12 +4,20 @@ import { LabeledTextField } from "app/core/components/LabeledTextField"
 import { Form, FORM_ERROR } from "app/core/components/Form"
 import { ForgotPassword } from "app/auth/validations"
 import forgotPassword from "app/auth/mutations/forgotPassword"
+import { Scrollable } from "app/core/components/Icons"
+import { Breadcrumb } from "app/core/components/Ui"
 
 const ForgotPasswordPage: BlitzPage = () => {
   const [forgotPasswordMutation, { isSuccess }] = useMutation(forgotPassword)
 
   return (
     <div>
+      <Breadcrumb>
+        <p>
+          <Scrollable />
+        </p>
+      </Breadcrumb>
+
       <h1>Forgot your password?</h1>
 
       {isSuccess ? (
@@ -43,6 +51,8 @@ const ForgotPasswordPage: BlitzPage = () => {
 }
 
 ForgotPasswordPage.redirectAuthenticatedTo = "/"
-ForgotPasswordPage.getLayout = (page) => <Layout title="Forgot Your Password?">{page}</Layout>
+ForgotPasswordPage.getLayout = (page) => (
+  <Layout title="Forgot Your Password? | scrollable">{page}</Layout>
+)
 
 export default ForgotPasswordPage
