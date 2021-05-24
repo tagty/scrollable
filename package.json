@@ -1,5 +1,5 @@
 {
-  "name": "md2p",
+  "name": "scrollable",
   "version": "1.0.0",
   "scripts": {
     "dev": "blitz dev",

@@ -1,4 +1,6 @@
-# **md2p (Markdown to Presentation)**
+# **scrollable**
+
+scrollable presentation by markdown
 
 ## Getting Started
 
@@ -15,13 +17,13 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 Ensure the `.env.local` file has required environment variables:
 
 ```
-DATABASE_URL=postgresql://<YOUR_DB_USERNAME>@localhost:5432/md2p
+DATABASE_URL=postgresql://<YOUR_DB_USERNAME>@localhost:5432/scrollable
 ```
 
 Ensure the `.env.test.local` file has required environment variables:
 
 ```
-DATABASE_URL=postgresql://<YOUR_DB_USERNAME>@localhost:5432/md2p_test
+DATABASE_URL=postgresql://<YOUR_DB_USERNAME>@localhost:5432/scrollable_test
 ```
 
 ## Tests
