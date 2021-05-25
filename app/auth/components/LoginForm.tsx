@@ -3,6 +3,7 @@ import { LabeledTextField } from "app/core/components/LabeledTextField"
 import { Form, FORM_ERROR } from "app/core/components/Form"
 import login from "app/auth/mutations/login"
 import { Login } from "app/auth/validations"
+import { AButton } from "app/core/components/Ui"
 
 type LoginFormProps = {
   onSuccess?: () => void
@@ -44,8 +45,10 @@ export const LoginForm = (props: LoginFormProps) => {
         </div>
       </Form>
 
-      <div style={{ marginTop: "1rem" }}>
-        Or <Link href={Routes.SignupPage()}>Sign Up</Link>
+      <div>
+        <Link href={Routes.SignupPage()}>
+          <AButton>Sign Up</AButton>
+        </Link>
       </div>
     </div>
   )

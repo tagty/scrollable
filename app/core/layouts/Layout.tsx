@@ -33,8 +33,9 @@ const Layout = ({ title, children }: LayoutProps) => {
             padding: 10px;
             background-color: #ffffff;
             border: none;
-            border-radius: 3px;
             cursor: pointer;
+            font-size: 16px;
+            font-family: "Noto Sans JP";
           }
 
           a {

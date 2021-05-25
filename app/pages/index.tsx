@@ -4,7 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
 import { Scrollable } from "app/core/components/Icons"
-import { Breadcrumb } from "app/core/components/Ui"
+import { Breadcrumb, AButton } from "app/core/components/Ui"
 import styled from "styled-components"
 
 /*
@@ -32,10 +32,10 @@ const UserInfo = () => {
     return (
       <Action>
         <Link href={Routes.SignupPage()}>
-          <a>Sign Up</a>
+          <AButton>Sign Up</AButton>
         </Link>
         <Link href={Routes.LoginPage()}>
-          <a>Login</a>
+          <AButton>Login</AButton>
         </Link>
       </Action>
     )
