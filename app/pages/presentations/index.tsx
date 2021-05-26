@@ -33,19 +33,6 @@ export const PresentationsList = () => {
               <a>Edit</a>
             </Link>
 
-            <button
-              type="button"
-              onClick={async () => {
-                if (window.confirm("This will be deleted")) {
-                  await deletePresentationMutation({ id: presentation.id })
-                  router.push(Routes.PresentationsPage())
-                }
-              }}
-              style={{ margin: "0.5rem" }}
-            >
-              Delete
-            </button>
-
             <Link href={Routes.SlidesPage({ presentationId: presentation.id })}>
               <a>Slides</a>
             </Link>
@@ -121,6 +108,3 @@ PresentationsPage.authenticate = true
 PresentationsPage.getLayout = (page) => <Layout>{page}</Layout>
 
 export default PresentationsPage
-function deletePresentationMutation(arg0: { id: number }) {
-  throw new Error("Function not implemented.")
-}

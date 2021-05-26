@@ -10,9 +10,16 @@ const GetPresentation = z.object({
 export default resolver.pipe(
   resolver.zod(GetPresentation),
   resolver.authorize(),
-  async ({ id }) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const presentation = await db.presentation.findFirst({ where: { id } })
+  async ({ id }, ctx) => {
+    const user = await db.user.findFirst({ where: { id: ctx.session.userId! } })
+    if (!user) throw new NotFoundError()
+
+    const presentation = await db.presentation.findFirst({
+      where: {
+        id,
+        userId: user.id,
+      },
+    })
 
     if (!presentation) throw new NotFoundError()
 

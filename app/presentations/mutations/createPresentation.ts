@@ -1,4 +1,4 @@
-import { resolver } from "blitz"
+import { NotFoundError, resolver } from "blitz"
 import db from "db"
 import * as z from "zod"
 
@@ -12,11 +12,19 @@ const CreatePresentation = z
 export default resolver.pipe(
   resolver.zod(CreatePresentation),
   resolver.authorize(),
-  async (input) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const presentation = await db.presentation.create({ data: input })
+  async ({ title, text }, ctx) => {
+    const user = await db.user.findFirst({ where: { id: ctx.session.userId! } })
+    if (!user) throw new NotFoundError()
 
-    const texts = input.text.split("---\n")
+    const presentation = await db.presentation.create({
+      data: {
+        title: title,
+        text: text,
+        userId: user.id,
+      },
+    })
+
+    const texts = text.split("---\n")
 
     texts.forEach(async (text, index) => {
       await db.slide.create({

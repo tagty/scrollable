@@ -1,4 +1,4 @@
-import { paginate, resolver } from "blitz"
+import { NotFoundError, paginate, resolver } from "blitz"
 import db, { Prisma } from "db"
 
 interface GetPresentationsInput
@@ -6,8 +6,10 @@ interface GetPresentationsInput
 
 export default resolver.pipe(
   resolver.authorize(),
-  async ({ where, orderBy, skip = 0, take = 100 }: GetPresentationsInput) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
+  async ({ where, orderBy, skip = 0, take = 100 }: GetPresentationsInput, ctx) => {
+    const user = await db.user.findFirst({ where: { id: ctx.session.userId! } })
+    if (!user) throw new NotFoundError()
+
     const {
       items: presentations,
       hasMore,
@@ -17,7 +19,15 @@ export default resolver.pipe(
       skip,
       take,
       count: () => db.presentation.count({ where }),
-      query: (paginateArgs) => db.presentation.findMany({ ...paginateArgs, where, orderBy }),
+      query: (paginateArgs) =>
+        db.presentation.findMany({
+          ...paginateArgs,
+          where: {
+            ...where,
+            userId: user.id,
+          },
+          orderBy,
+        }),
     })
 
     return {

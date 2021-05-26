@@ -12,8 +12,17 @@ export default resolver.pipe(
   resolver.zod(DeletePresentation),
   resolver.authorize(),
   async ({ id }) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const presentation = await db.presentation.deleteMany({ where: { id } })
+    const slides = db.slide.deleteMany({
+      where: {
+        presentationId: id,
+      },
+    })
+    const presentation = db.presentation.delete({
+      where: {
+        id,
+      },
+    })
+    await db.$transaction([slides, presentation])
 
     return presentation
   }
