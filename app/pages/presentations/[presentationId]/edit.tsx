@@ -21,7 +21,7 @@ export const EditPresentation = () => {
 
       <div>
         <PresentationForm
-          submitText="Update Presentation"
+          submitText="Update"
           // TODO use a zod schema for form validation
           //  - Tip: extract mutation's schema into a shared `validations.ts` file and
           //         then import and use it here
@@ -48,32 +48,40 @@ export const EditPresentation = () => {
   )
 }
 
-const EditPresentationPage: BlitzPage = () => {
+const Breadcrumbs = () => {
   const presentationId = useParam("presentationId", "number")
   const [presentation] = useQuery(getPresentation, { id: presentationId })
 
   return (
+    <Breadcrumb>
+      <p>
+        <Link href={Routes.Home()}>
+          <a>
+            <Scrollable />
+          </a>
+        </Link>
+      </p>
+      <p>
+        <Link href={Routes.PresentationsPage()}>
+          <a>Presentations</a>
+        </Link>
+      </p>
+      <p>
+        <Link href={Routes.ShowPresentationPage({ presentationId: presentation.id })}>
+          <a>{presentation.title}</a>
+        </Link>
+      </p>
+      <p>Edit</p>
+    </Breadcrumb>
+  )
+}
+
+const EditPresentationPage: BlitzPage = () => {
+  return (
     <div>
-      <Breadcrumb>
-        <p>
-          <Link href={Routes.Home()}>
-            <a>
-              <Scrollable />
-            </a>
-          </Link>
-        </p>
-        <p>
-          <Link href={Routes.PresentationsPage()}>
-            <a>Presentations</a>
-          </Link>
-        </p>
-        <p>
-          <Link href={Routes.ShowPresentationPage({ presentationId: presentation.id })}>
-            <a>{presentation.title}</a>
-          </Link>
-        </p>
-        <p>Edit</p>
-      </Breadcrumb>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Breadcrumbs />
+      </Suspense>
 
       <Suspense fallback={<div>Loading...</div>}>
         <EditPresentation />
