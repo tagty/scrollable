@@ -6,6 +6,8 @@ import deletePresentation from "app/presentations/mutations/deletePresentation"
 import { Breadcrumb } from "app/core/components/Ui"
 import { Scrollable } from "app/core/components/Icons"
 import styled from "styled-components"
+import MarkdownPreview from "@uiw/react-markdown-preview"
+import "@uiw/react-markdown-preview/dist/markdown.css"
 
 export const Presentation = () => {
   const router = useRouter()
@@ -20,8 +22,6 @@ export const Presentation = () => {
       </Head>
 
       <div>
-        <h1>{presentation.title}</h1>
-
         <Action>
           <Link href={Routes.EditPresentationPage({ presentationId: presentation.id })}>
             <a>Edit</a>
@@ -44,6 +44,10 @@ export const Presentation = () => {
             <a>Slides</a>
           </Link>
         </Action>
+
+        <H1>{presentation.title}</H1>
+
+        <MarkdownPreview source={presentation.text} />
       </div>
     </>
   )
@@ -52,6 +56,10 @@ export const Presentation = () => {
 const Action = styled.div`
   display: flex;
   align-items: center;
+`
+
+const H1 = styled.h1`
+  margin: 0px 0px 20px;
 `
 
 const Breadcrumbs = () => {
