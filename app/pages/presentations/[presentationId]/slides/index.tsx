@@ -175,6 +175,8 @@ const Breadcrumbs = () => {
 
 const Header = () => {
   const presentationId = useParam("presentationId", "number")
+  const [presentation] = useQuery(getPresentation, { id: presentationId })
+
   const router = useRouter()
   const page = Number(router.query.page) || 0
 
@@ -187,7 +189,7 @@ const Header = () => {
   return (
     <Head>
       <title>
-        {page + 1}/{slides.count} | scrollable
+        {presentation.title} ({page + 1}/{slides.count}) | scrollable
       </title>
     </Head>
   )
