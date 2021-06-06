@@ -31,11 +31,11 @@ const UserInfo = () => {
   } else {
     return (
       <Action>
-        <Link href={Routes.SignupPage()}>
-          <AButton>Sign Up</AButton>
-        </Link>
         <Link href={Routes.LoginPage()}>
           <AButton>Login</AButton>
+        </Link>
+        <Link href={Routes.SignupPage()}>
+          <AButton>Sign Up</AButton>
         </Link>
       </Action>
     )
@@ -48,24 +48,37 @@ const Action = styled.div`
   }
 `
 
-const Home: BlitzPage = () => {
+const Header = () => {
   return (
-    <div>
+    <HeaderContainer>
       <Breadcrumb>
         <p>
           <Scrollable />
         </p>
       </Breadcrumb>
+      <UserInfo />
+    </HeaderContainer>
+  )
+}
+
+const HeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const Home: BlitzPage = () => {
+  return (
+    <div>
+      <Suspense fallback="Loading...">
+        <Header />
+      </Suspense>
 
       <p>
         <Link href={Routes.PresentationsPage()}>
           <a>Presentations</a>
         </Link>
       </p>
-
-      <Suspense fallback="Loading...">
-        <UserInfo />
-      </Suspense>
     </div>
   )
 }
