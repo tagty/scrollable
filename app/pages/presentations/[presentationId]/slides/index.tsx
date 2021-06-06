@@ -10,45 +10,15 @@ import {
   useQuery,
 } from "blitz"
 import styled from "styled-components"
-import ReactMarkdown from "react-markdown"
-import SyntaxHighlighter from "react-syntax-highlighter"
-import { githubGist } from "react-syntax-highlighter/dist/esm/styles/hljs"
 import Layout from "app/core/layouts/Layout"
 import getSlides from "app/slides/queries/getSlides"
 import getPresentation from "app/presentations/queries/getPresentation"
 import { Breadcrumb } from "app/core/components/Ui"
 import { Scrollable } from "app/core/components/Icons"
+import MarkdownPreview from "@uiw/react-markdown-preview"
+import "@uiw/react-markdown-preview/dist/markdown.css"
 
 const ITEMS_PER_PAGE = 1
-
-const components = {
-  code({ node, inline, className, children, ...props }) {
-    const match = /language-(\w+)/.exec(className || "")
-    return !inline && match ? (
-      <CodeBlock style={githubGist} language={match[1]} PreTag="div" {...props}>
-        {String(children).replace(/\n$/, "")}
-      </CodeBlock>
-    ) : (
-      <Code className={className} {...props}>
-        {children}
-      </Code>
-    )
-  },
-}
-
-const CodeBlock = styled(SyntaxHighlighter)`
-  margin: 25px 0px;
-  font-size: 16px;
-
-  font-size: 16px;
-`
-
-const Code = styled.code`
-  background-color: #f5f4f4;
-  padding: 6px;
-  border-radius: 4px;
-  font-size: 14px;
-`
 
 export const SlidesList = () => {
   const router = useRouter()
@@ -89,43 +59,27 @@ export const SlidesList = () => {
     <div>
       {slides.map((slide) => (
         <Slide key={slide.id}>
-          <ReactMarkdown components={components} children={slide.text} />
+          <MarkdownPreview source={slide.text} />
         </Slide>
       ))}
 
-      <Buttons>
+      <Action>
         <button disabled={page === 0} onClick={goToPreviousPage}>
           Previous
         </button>
         <button disabled={!hasMore} onClick={goToNextPage}>
           Next
         </button>
-      </Buttons>
+      </Action>
     </div>
   )
 }
 
 const Slide = styled.div`
-  img {
-    margin: 20px 0px;
-    max-width: 800px;
-  }
-
-  ul {
-    padding-inline-start: 30px;
-    list-style: disc;
-  }
-
-  li {
-    padding: 10px 0px;
-  }
-
-  p {
-    margin: 10px;
-  }
+  margin-top: 20px;
 `
 
-const Buttons = styled.div`
+const Action = styled.div`
   margin-top: 35px;
 
   button:not(:last-child) {
