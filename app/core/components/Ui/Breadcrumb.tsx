@@ -16,7 +16,7 @@ const Breadcrumb = styled.div`
     }
 
     a {
-      color: #4286ff;
+      color: #111111;
       text-decoration: none;
     }
 

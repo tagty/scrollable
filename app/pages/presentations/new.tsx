@@ -28,7 +28,7 @@ const NewPresentationPage: BlitzPage = () => {
       </Breadcrumb>
 
       <PresentationForm
-        submitText="Create Presentation"
+        submitText="Create"
         // TODO use a zod schema for form validation
         //  - Tip: extract mutation's schema into a shared `validations.ts` file and
         //         then import and use it here
