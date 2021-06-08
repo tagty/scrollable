@@ -1,0 +1,23 @@
+name: GitHub Actions
+on: [push]
+jobs:
+  GitHub-Actions:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13.3
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+      - run: npm install
+      - run: npm test
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/scrollable_test
