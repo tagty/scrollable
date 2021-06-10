@@ -1801,17 +1801,6 @@
     "@typescript-eslint/types" "4.17.0"
     eslint-visitor-keys "^2.0.0"
 
-"@uiw/react-markdown-preview@3.0.6":
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/@uiw/react-markdown-preview/-/react-markdown-preview-3.0.6.tgz#579900465f6d974c1a3e13c3a04db4113d0eb4db"
-  integrity sha512-eCr9DhesubOqjCpCE+kGWogduWAnzbtzPPCej46TJTGSqt9MieNnRcGWLBRAsW40Db+NV2mbYmgCLSfEFimhzQ==
-  dependencies:
-    "@babel/runtime" "7.13.10"
-    "@mapbox/rehype-prism" "0.6.0"
-    react-markdown "6.0.2"
-    rehype-raw "5.1.0"
-    remark-gfm "1.0.0"
-
 "@uiw/react-markdown-preview@3.1.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@uiw/react-markdown-preview/-/react-markdown-preview-3.1.1.tgz#d58127d86dc22adf4697f0b21fd9b8c83a9f84fe"
