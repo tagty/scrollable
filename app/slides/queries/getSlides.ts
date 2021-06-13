@@ -10,13 +10,6 @@ export default resolver.pipe(
     const user = await db.user.findFirst({ where: { id: ctx.session.userId! } })
     if (!user) throw new NotFoundError()
 
-    const presentation = await db.presentation.findFirst({
-      where: {
-        id: where?.id,
-        userId: user.id,
-      },
-    })
-
     const {
       items: slides,
       hasMore,
@@ -30,7 +23,7 @@ export default resolver.pipe(
         db.slide.findMany({
           ...paginateArgs,
           where: {
-            presentationId: presentation?.id,
+            presentationId: where?.presentationId,
           },
           orderBy,
         }),

@@ -25,7 +25,7 @@ export const SlidesList = () => {
   const page = Number(router.query.page) || 0
   const presentationId = useParam("presentationId", "number")
   const [{ slides, hasMore }] = usePaginatedQuery(getSlides, {
-    where: { presentation: { id: presentationId } },
+    where: { presentationId: presentationId },
     orderBy: { number: "asc" },
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
