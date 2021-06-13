@@ -74,14 +74,39 @@ const Home: BlitzPage = () => {
         <Header />
       </Suspense>
 
+      <Main>
+        <p>Convert markdown to</p>
+        <p>
+          <Scrollable /> presentation slides
+        </p>
+      </Main>
+
       <p>
         <Link href={Routes.PresentationsPage()}>
-          <a>Presentations</a>
+          <a>Show all presentations</a>
         </Link>
       </p>
     </div>
   )
 }
+
+const Main = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 35px;
+  margin-block: 50px;
+
+  p {
+    display: flex;
+    align-items: flex-end;
+    margin-block: 30px;
+
+    svg {
+      margin-right: 10px;
+    }
+  }
+`
 
 Home.suppressFirstRenderFlicker = true
 Home.getLayout = (page) => <Layout title="Home | scrollable">{page}</Layout>
