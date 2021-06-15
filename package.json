@@ -24,13 +24,13 @@
     ]
   },
   "dependencies": {
-    "@prisma/client": "2.20.1",
+    "@prisma/client": "2.25.0",
     "@uiw/react-markdown-preview": "3.1.1",
     "@uiw/react-md-editor": "3.3.6",
     "blitz": "0.34.3",
     "final-form": "4.20.2",
     "next-remove-imports": "1.0.5",
-    "prisma": "2.20.1",
+    "prisma": "2.25.0",
     "react": "0.0.0-experimental-6a589ad71",
     "react-dom": "0.0.0-experimental-6a589ad71",
     "react-error-boundary": "3.1.3",
