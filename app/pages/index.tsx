@@ -81,21 +81,33 @@ const Home: BlitzPage = () => {
         </p>
       </Main>
 
-      <p>
+      <P>
         <Link href={Routes.PresentationsPage()}>
           <a>Show all presentations</a>
         </Link>
-      </p>
+      </P>
     </div>
   )
 }
+
+const P = styled.p`
+  text-align: center;
+
+  a {
+    border: 2px solid;
+    border-radius: 6px;
+    padding: 10px;
+    color: #111111;
+  }
+`
 
 const Main = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: 35px;
-  margin-block: 50px;
+  margin-top: 50px;
+  margin-bottom: 70px;
 
   p {
     display: flex;
