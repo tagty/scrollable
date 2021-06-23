@@ -96,7 +96,7 @@ const P = styled.p`
   a {
     border: 2px solid;
     border-radius: 6px;
-    padding: 10px;
+    padding: 12px;
     color: #111111;
   }
 `
