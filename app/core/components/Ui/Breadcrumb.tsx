@@ -2,6 +2,7 @@ import styled from "styled-components"
 
 const Breadcrumb = styled.div`
   display: flex;
+  margin-bottom: 35px;
 
   p {
     display: flex;

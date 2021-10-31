@@ -25,17 +25,21 @@ export const PresentationsList = () => {
       <Table>
         {presentations.map((presentation) => (
           <div key={presentation.id} className="row">
-            <Link href={Routes.ShowPresentationPage({ presentationId: presentation.id })}>
-              <a>{presentation.title}</a>
-            </Link>
-
-            <Link href={Routes.EditPresentationPage({ presentationId: presentation.id })}>
-              <a>Edit</a>
-            </Link>
-
-            <Link href={Routes.SlidesPage({ presentationId: presentation.id })}>
-              <a>Slides</a>
-            </Link>
+            <div className="title">
+              <Link href={Routes.ShowPresentationPage({ presentationId: presentation.id })}>
+                <a>{presentation.title}</a>
+              </Link>
+            </div>
+            <div>
+              <Link href={Routes.EditPresentationPage({ presentationId: presentation.id })}>
+                <A>Edit</A>
+              </Link>
+            </div>
+            <div>
+              <Link href={Routes.SlidesPage({ presentationId: presentation.id })}>
+                <A>Slides</A>
+              </Link>
+            </div>
           </div>
         ))}
       </Table>
@@ -53,12 +57,16 @@ export const PresentationsList = () => {
 }
 
 const Table = styled.div`
-  margin-bottom: 35px;
+  margin-block: 35px;
 
   > div.row {
     display: flex;
     align-items: center;
-    padding: 10px 0px;
+    padding-block: 20px;
+
+    > div.title {
+      width: 400px;
+    }
 
     > *:not(:last-child) {
       margin-right: 20px;
@@ -93,7 +101,7 @@ const PresentationsPage: BlitzPage = () => {
 
         <p>
           <Link href={Routes.NewPresentationPage()}>
-            <a>Create Presentation</a>
+            <A>Create</A>
           </Link>
         </p>
 
@@ -104,6 +112,12 @@ const PresentationsPage: BlitzPage = () => {
     </>
   )
 }
+
+const A = styled.a`
+  border: 2px solid;
+  border-radius: 6px;
+  padding: 12px;
+`
 
 PresentationsPage.authenticate = true
 PresentationsPage.getLayout = (page) => <Layout>{page}</Layout>
